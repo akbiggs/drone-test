@@ -5,12 +5,16 @@ var autonomy = require('ardrone-autonomy'),
 	client = mission.client;
 
 mission.takeoff()
+	.altitude(0.5)
 	.wait(2000)
 	.left(1)
+	.zero()
 	.wait(2000)
 	.right(1)
+	.zero()
 	.wait(2000)
-	.cw(180)
+	.cw(1)
+	.zero()
 	.wait(2000)
 	.land();
 
