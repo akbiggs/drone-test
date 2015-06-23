@@ -5,30 +5,30 @@ var autonomy = require('ardrone-autonomy'),
 	client = mission.client;
 
 mission.takeoff()
-	.zero()
-	.altitude(0.3)
-	.forward(0.3)
-	.right(0.3)
-	.backward(0.3)
-	.left(0.3)
-	.hover(1000)
+	.wait(2000)
+	.left(1)
+	.wait(2000)
+	.right(1)
+	.wait(2000)
+	.cw(180)
+	.wait(2000)
 	.land();
 
 mission.run(function(err, result) {
 	if (err) {
-		console.trace("An error occurred when running the mission: " + err);
-		client.stop();
-		client.land();
+		handleErr(err);
 	} else {
 		console.log("Mission success");
-		process.exit(0)
+		process.exit(0);
 	}
 });
 
-process.on('uncaughtException', function(err) {
-	console.log("Unhandled error: " + err);
+var handleErr = function(err) {
+	console.log("Unhandled error while running mission: " + err);
 
 	client.stop();
 	client.land();
 	client.after(2000, process.exit);
-});
+}
+
+process.on('uncaughtException', handleErr);
